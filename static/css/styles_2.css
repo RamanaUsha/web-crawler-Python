@@ -1,0 +1,254 @@
+/* Global Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Header Styles */
+
+header {
+  background-color: #4285f4;
+  padding: 1em;
+  border-bottom: 1px solid #cccccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+header nav {
+  background-color: #4285f4;
+  padding: 1em;
+  text-align: right;
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul li {
+  display: inline-block;
+  margin-right: 20px;
+  transition: transform 0.2s ease;
+}
+
+header nav ul li:hover {
+  transform: scale(1.1);
+}
+
+header nav a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+header nav a:hover {
+  color: #cccccc;
+}
+
+/* Main Styles */
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px;
+}
+
+/* Logo Styles */
+
+.logo {
+  margin-bottom: 20px;
+}
+
+.logo img {
+  width: 150px;
+  height: auto;
+  border-radius: 50%;
+}
+
+/* Form Container Styles */
+
+.form-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: 40px auto;
+  box-sizing: border-box;
+}
+
+.form-container h1 {
+  font-size: 24px;
+  margin-top: 0;
+  color: #333333;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.form-container label {
+  display: block;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+  width: 90%;
+  height: 40px;
+  padding: 10px;
+  font-size: 18px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  margin-bottom: 20px;
+  transition: border-color 0.2s ease;
+}
+
+.form-container input[type="text"]:focus,
+.form-container input[type="email"]:focus,
+.form-container input[type="password"]:focus {
+  border-color: #4285f4;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-container button[type="submit"] {
+  background-color: #4285f4;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.form-container button[type="submit"]:hover {
+  background-color: #337ab7;
+}
+
+.forgot-password {
+  float: right;
+  color: #337ab7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #4285f4;
+}
+
+/* Footer Styles */
+
+footer {
+  background-color: #f2f2f2;
+  padding: 1em;
+  border-top: 1px solid #cccccc;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  main {
+      padding-top: 60px;
+  }
+  .form-container {
+      width: 90%;
+      padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+      padding-top: 40px;
+  }
+  .form-container {
+      width: 100%;
+      padding: 10px;
+  }
+}
+
+/* Styling for the modal pop-up */
+.pop-up {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: 8px;
+  z-index: 1000;
+  width: 300px;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+
+/* Animation for fading in */
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+/* Style for success and error messages */
+.pop-up.success {
+  background-color: #28a745;  /* Green for success */
+}
+
+.pop-up.error {
+  background-color: #dc3545;  /* Red for error */
+}
+
+/* Close button style */
+.pop-up .close-btn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #333;
+}
+
+.pop-up .close-btn:hover {
+  background-color: #ddd;
+}
+
+/* Navbar Styles */
+.navbar-brand {
+float: left;
+margin-right: 20px; /* Optional: add margin between the brand and other elements */
+}
+
+.navbar-nav {
+margin-left: auto;
+}

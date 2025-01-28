@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_2.css') }}">
+    <style>
+        /* Loading spinner */
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Toast notification for success/error messages */
+        .toast {
+            visibility: hidden;
+            max-width: 50%;
+            margin: 10px auto;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            right: 0;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadeout {
+            from {opacity: 1;}
+            to {opacity: 0;}
+        }
+
+        .flashes {
+  list-style-type: none;
+  padding: 0;
+}
+
+.flashes li {
+  padding: 10px;
+  margin: 5px 0;
+}
+
+.flashes li.success {
+  background-color: #dff0d8;
+  color: #3c763d;
+}
+
+.flashes li.error {
+  background-color: #f2dede;
+  color: #a94442;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('home') }}">Web Crawler</a>
+                <ul class="navbar-nav ms-auto">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('documentation') }}">Documentation</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h1>Login</h1>
+            <form action="{{ url_for('login') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <label for="username">Username</label>
+                {{ form.username() }}
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors[0] }}</div>
+                {% endif %}
+            
+                <label for="password">Password</label>
+                {{ form.password() }}
+                {% if form.password.errors %}
+                    <div class="error">{{ form.password.errors[0] }}</div>
+                {% endif %}
+            
+                <button type="submit">Login</button>
+                <p><a href="{{ url_for('forgot_password') }}">Forgot your password?</a></p>
+                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+            </form>
+            
+        </div>
+    </main>
+
+    <!-- Flash Message Modal -->
+    <div id="flashModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="flashMessage"></p>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast">Login successful!</div>
+
+    <footer>
+        <p>&copy; 2024 Web Crawler Project</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = JSON.parse('{{ get_flashed_messages(with_categories=true) | tojson | safe }}');
+            if (messages.length > 0) {
+                const modal = document.getElementById('flashModal');
+                const messageText = document.getElementById('flashMessage');
+                const closeBtn = document.querySelector('.close');
+                const [category, text] = messages[0];
+                messageText.textContent = text;
+                modal.style.display = 'block';
+
+                closeBtn.onclick = function() {
+                    modal.style.display = 'none';
+                };
+
+                window.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                };
+            }
+
+            // Add the loading spinner functionality
+            const form = document.querySelector("form");
+            const loader = document.getElementById("loader");
+            form.onsubmit = function() {
+                loader.style.display = 'block';  // Show the loader
+            };
+        });
+    </script>
+
+    <!-- Loading spinner -->
+    <div id="loader" class="loader"></div>
+</body>
+</html>

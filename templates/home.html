@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Crawler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('about_1') }}">About</a></li>
+                <li><a href="{{ url_for('documentation') }}">Documentation</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('signup') }}">Signup</a></li>
+
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/WEBCRAWLER-ezgif.com-gif-to-webp-converter.webp') }}" alt="Web Crawler Logo">
+        </div>
+        <div class="welcome-message">
+            <h1>Welcome to Web Crawler!</h1>
+            <p>Start crawling the web with our powerful tool.</p>
+        </div>
+        <div class="crawl-form">
+            <form id="crawlForm" method="get" action="#">
+                <input type="text" name="url" class="crawl-input" placeholder="Enter URL to Crawl" required>
+                <button type="submit" class="crawl-button">Crawl</button>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 Web Crawler Project</p>
+    </footer>
+
+    <!-- Pop-up Modal for Login Alert -->
+    <div id="loginAlertModal" class="modal">
+        <div class="modal-content">
+            <h2>Login Required</h2>
+            <p>To start crawling, you need to log in.</p>
+            <button onclick="redirectToLogin()" class="login-button">Okay</button>
+        </div>
+    </div>
+
+    <!-- JavaScript for checking login status -->
+    <script>
+        function checkLogin(event) {
+            event.preventDefault();
+            const isLoggedIn = "{{ 'true' if logged_in else 'false' }}" === 'true';
+            if (!isLoggedIn) {
+                document.getElementById('loginAlertModal').style.display = 'block';
+            } else {
+                document.getElementById('crawlForm').submit();
+            }
+        }
+        document.getElementById('crawlForm').addEventListener('submit', checkLogin);
+
+        function redirectToLogin() {
+            window.location.href = "{{ url_for('login') }}";
+        }
+        window.onclick = function(event) {
+            const modal = document.getElementById('loginAlertModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>

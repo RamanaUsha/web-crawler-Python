@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_3.css') }}">
+    <title>About - Web Crawler</title>
+    <style>
+        /* Page Background and Text Styles */
+        body {
+            background-color: #f8f9fa; /* Soft neutral background */
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1, h2 {
+            color: #0072ff; /* Primary color for headings */
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            border: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #0072ff;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Navbar Customization */
+        .navbar {
+            background-color: #0072ff;
+        }
+
+        .navbar a {
+            color: white !important;
+        }
+
+        .navbar a:hover {
+            color: #f8f9fa !important;
+        }
+
+        .navbar-brand img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .footer {
+            background-color: #333;
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='images/WEBCRAWLER-ezgif.com-gif-to-webp-converter.webp') }}" alt="Logo"> Web Crawler
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('documentation_1') }}">Documentation</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container mt-5">
+    <h1>About This Project</h1>
+    <div class="section">
+        <p>This Web Crawler is a tool designed to automate the process of browsing and gathering data from websites based on a given URL. The crawler follows the links from the starting page and collects relevant content for further analysis. The project is built to be extensible, supporting advanced features such as keyword-based search, crawl history, and user accounts to personalize the browsing and data extraction experience.</p>
+        <p>Users can define parameters such as crawl depth and page limit to fine-tune the data collection process. The system also stores the crawled data in a structured format, making it easy for users to review and analyze later. The Web Crawler is also designed to handle large-scale crawling tasks, processing multiple pages efficiently while respecting robots.txt and website crawling policies.</p>
+    </div>
+    
+    <h2>Key Features</h2>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-globe"></i> Crawl Customization</h5>
+                    <p class="card-text">Set the maximum crawl depth and number of pages to scan. This ensures that the data collection process is efficient and focused on relevant content. You can also choose to follow or ignore certain links based on your needs.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-history"></i> History Tracking</h5>
+                    <p class="card-text">Stores and displays crawl history, allowing users to review previous sessions at any time. This feature allows users to quickly resume a crawl or analyze data from previous sessions without having to redo the entire process.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-key"></i> Keyword Search</h5>
+                    <p class="card-text">Search for specific keywords within crawled pages to find content that matches your exact needs. This feature is useful for targeted data retrieval and filtering unnecessary information.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-cogs"></i> Real-Time Updates</h5>
+                    <p class="card-text">Track crawl progress with real-time updates, including progress bars showing the percentage of completion. Users are notified when the crawl is finished or if any errors occur during the process.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-users"></i> User Profiles and Authentication</h5>
+                    <p class="card-text">Create and manage user accounts to track individual crawl history, preferences, and saved data. Each user can log in to view their past sessions, restart crawls, or modify crawl settings. Secure user authentication ensures data privacy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2>Technologies Used</h2>
+    <p>This Web Crawler is built using a stack of modern technologies, ensuring a responsive, secure, and feature-rich experience:</p>
+    <ul>
+        <li><i class="fas fa-python"></i> <strong>Flask</strong> - A lightweight and flexible Python-based web framework used to create the backend of the application.</li>
+        <li><i class="fas fa-laptop"></i> <strong>Bootstrap</strong> - A popular CSS framework that ensures the app is responsive and looks great on all devices.</li>
+        <li><i class="fas fa-database"></i> <strong>SQLite</strong> - A lightweight relational database for storing user data, session history, and crawl results.</li>
+        <li><i class="fas fa-code"></i> <strong>JavaScript (AJAX)</strong> - JavaScript, in combination with AJAX, is used to update the webpage in real time during a crawl and handle asynchronous requests without reloading the page.</li>
+        <li><i class="fas fa-shield-alt"></i> <strong>OAuth 2.0 / JWT</strong> - Secure user authentication using OAuth 2.0 and JWT (JSON Web Tokens) for handling secure login and user sessions.</li>
+        <li><i class="fas fa-server"></i> <strong>Celery</strong> - Used for handling background tasks such as crawling large websites asynchronously, improving the user experience by not blocking the main thread.</li>
+    </ul>
+
+    <h2>How It Works</h2>
+    <p>The Web Crawler starts by allowing the user to input a URL. Once the user sets the desired crawl parameters (depth, limit, etc.), the system begins to explore the pages linked from the starting URL. The crawler follows links recursively, capturing the content based on the specified settings. The gathered data is processed and displayed in an organized format, with options to export or save the crawl results. Users can stop or pause the crawling process at any time and resume it later from the same session.</p>
+
+    <h2>Future Enhancements</h2>
+    <ul>
+        <li>Integration of Machine Learning to analyze crawl data for insights and trends.</li>
+        <li>Advanced filtering options based on content type, metadata, or crawling errors.</li>
+        <li>Support for more complex crawl scenarios like authentication-required pages and CAPTCHA handling.</li>
+        <li>Expanded user preferences for better customization of crawl behaviors.</li>
+    </ul>
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2024 Web Crawler. All Rights Reserved.</p>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

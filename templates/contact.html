@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - WebCrawler Pro</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <style>
+    body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fdf8f8;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-page {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #3326df;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo-container img {
+    max-width: 150px;
+    height: auto;
+}
+
+.contact-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.contact-header h2 {
+    color: #090d0e;
+}
+
+.contact-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.contact-form {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #f9f8f8;
+    border: none;
+    border-radius: 5px;
+    color: #e0e0e0;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border: 1px solid #00d8ff;
+    outline: none;
+}
+
+.btn-submit {
+    background-color: #00d8ff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    color: #121212;
+}
+
+.btn-submit:hover {
+    background-color: #00a3cc;
+}
+
+.contact-info {
+    flex: 0.7;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.contact-info h3 {
+    color: #00d8ff;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact-info ul li {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.social-icons a {
+    margin-right: 10px;
+    color: #00d8ff;
+    font-size: 24px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #00a3cc;
+}
+
+.map-container {
+    margin-top: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+   </style>
+</head>
+<body>
+
+<div class="contact-page">
+    <!-- Logo Section -->
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/WEBCRAWLER-ezgif.com-gif-to-webp-converter.webp') }}" alt="WebCrawler Pro Logo">
+    </div>
+    <div class="contact-header">
+        <h2>Get in Touch with WebCrawler Pro</h2>
+        <p>Have questions about web scraping, data crawling, or our services? We're here to help!</p>
+    </div>
+
+    <div class="contact-content">
+        <div class="contact-form">
+            <form method="POST" action="{{ url_for('contact') }}">
+                <div class="form-group">
+                    <label for="name">User Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="How can we assist you?" required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Message</button>
+            </form>
+        </div>
+
+        <div class="contact-info">
+            <h3>Reach Out to Us</h3>
+            <ul>
+                <li><i class="fas fa-envelope"></i> support@webcrawlerpro.com</li>
+                <li><i class="fas fa-phone-alt"></i> +1 123 456 7890</li>
+                <li><i class="fas fa-map-marker-alt"></i> 456 Data Lane, Tech City, USA</li>
+            </ul>
+
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- Buttons to clear all history and go back to crawl page -->
+    <div class="d-flex justify-content-between mt-4">
+        <a href="{{ url_for('crawl') }}" class="btn-submit">
+            <i class="bi bi-arrow-left-circle"></i> Back to Crawl
+        </a>
+    </div>
+
+    
+</div>
+
+</body>
+</html>

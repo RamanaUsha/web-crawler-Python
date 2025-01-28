@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Web Crawler</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_3.css') }}">
+    <style>
+    /* Global styles for body and HTML */
+    html, body {
+        height: 100%; /* Ensures the page fills the entire viewport */
+        margin: 0;    /* Removes any default margin */
+        padding: 0;   /* Removes any default padding */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Ensure content stretches to fill remaining space */
+    .content {
+        flex: 1; /* Makes the content area fill the available space */
+    }
+
+    /* Navbar customization */
+    .navbar {
+        background: linear-gradient(90deg, #0072ff, #00c6ff);
+    }
+
+    .navbar .navbar-brand img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+    }
+
+    .navbar .navbar-nav .nav-link {
+        font-size: 16px;
+        color: #fff !important;
+    }
+
+    .navbar .navbar-nav .nav-link:hover {
+        color: #ff8a00 !important;
+    }
+
+    
+    .footer {
+            background-color: #2232df;
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+        }
+
+    /* Form input fields */
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .content {
+            margin-top: 20px;
+        }
+        .crawl-result {
+            margin-bottom: 15px;
+        }
+        .crawl-result a {
+            font-size: 16px;
+            color: #007bff;
+        }
+        .crawl-result a:hover {
+            text-decoration: underline;
+        }
+        /* Adjusts the appearance of the button for better visibility */
+        .btn-download {
+            margin-top: 20px;
+        }
+
+        /* Hide crawl results by default */
+        #crawlResultsSection {
+            display: none;
+        }
+    /* Button and input styles */
+    .btn-primary {
+        background-color: #ff8a00;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #da1b60;
+    }
+
+    /* Section for statistics and crawl history */
+    .stat-section {
+        margin-top: 30px;
+    }
+
+    .stat-section h4 {
+        font-weight: bold;
+    }
+
+    .stat-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .stat-section li {
+        margin-bottom: 10px;
+    }
+
+    .btn-download {
+        background-color: #28a745;
+        border: none;
+        color: white;
+    }
+
+    .btn-download:hover {
+        background-color: #218838;
+    }
+
+    /* Position of user statistics section */
+    #userStatsSection {
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        width: 300px;
+        background: #f8f9fa;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        z-index: 999;
+        display: none; /* Initially hidden */
+    }
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" >
+                <img src="{{ url_for('static', filename='images/WEBCRAWLER-ezgif.com-gif-to-webp-converter.webp') }}" alt="Logo"> Web Crawler
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('documentation_1') }}">Documentation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('contact') }}">Contact</a></li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="{{ url_for('static', filename='images/' + (current_user.profile_picture or 'default-profile.jpg')) }}" alt="Profile Picture">
+                                {{ current_user.username }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('profile') }}">Profile</a>
+                                <a class="dropdown-item" href="{{ url_for('history') }}">Crawl History</a>
+                                <a class="dropdown-item" href="{{ url_for('settings') }}">Settings</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Sign Up</a></li>
+                    {% endif %}
+                    <!-- Button to Toggle User Statistics -->
+                    <li class="nav-item">
+                        <button id="toggleUserStatsBtn" class="btn btn-outline-secondary">
+                            <i class="fas fa-chart-bar"></i> Stats
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="content container">
+        <h2 class="text-center mb-4">Crawl Links</h2>
+
+        <form method="POST" action="{{ url_for('crawl') }}" id="crawlForm">
+            <!-- URL Input -->
+            <div class="form-group">
+                <label for="url" class="font-weight-bold">Enter the URL:</label>
+                <input type="text" class="form-control" id="url" name="url" placeholder="Enter the URL to start crawling" required>
+                <div id="urlError" style="color:red; display:none;">Please enter a valid URL.</div>
+            </div>
+
+            <!-- Max Pages Input -->
+            <div class="form-group">
+                <label for="max_pages" class="font-weight-bold">Max Pages:</label>
+                <input type="number" class="form-control" id="max_pages" name="max_pages" placeholder="Max number of pages to crawl" required>
+                <div id="maxPagesError" style="color:red; display:none;">Max pages must be a positive integer.</div>
+            </div>
+
+            <!-- Max Depth Input -->
+            <div class="form-group">
+                <label for="max_depth" class="font-weight-bold">Max Depth:</label>
+                <input type="number" class="form-control" id="max_depth" name="max_depth" placeholder="Max depth for crawling" required>
+                <div id="maxDepthError" style="color:red; display:none;">Max depth must be a positive integer.</div>
+            </div>
+
+            <!-- Keyword Input (Optional) -->
+            <div class="form-group">
+                <label for="keyword" class="font-weight-bold">Keyword (optional):</label>
+                <input type="text" class="form-control" id="keyword" name="keyword" placeholder="Enter keyword to filter (optional)">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Start Crawling</button>
+        </form>
+
+        <h2>Crawl Results:</h2>
+<div class="card">
+    <div class="card-header">Crawl Results</div>
+    <ul class="list-group list-group-flush" id="crawl-results">
+        {% for link in crawl_history %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{{ link.url }}" target="_blank">{{ link.title }}</a>
+                <span class="badge badge-secondary">{{ link.timestamp }}</span>
+            </li>
+        {% else %}
+            <li class="list-group-item">No results found.</li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+         
+
+    
+</div>
+        <!-- User Statistics Section (Visible after toggle) -->
+        <div id="userStatsSection" class="stat-section">
+            <h4>User Statistics</h4>
+            <ul>
+                <li><strong>Total Crawls:</strong> {{ user_stats.total_crawls }}</li>
+                <li><strong>Favorite URLs:</strong> {% if user_stats.favorite_urls %}{{ user_stats.favorite_urls | join(', ') }}{% else %}None{% endif %}</li>
+                <li><strong>Most Recent Crawl:</strong> URL: {{ user_stats.recent_crawl.url }}, Time: {{ user_stats.recent_crawl.time }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+<div class="footer">
+    <p>&copy; 2024 Web Crawler. All Rights Reserved.</p>
+</div>
+
+    <!-- JavaScript to handle the toggle functionality -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script>
+        // Toggle the User Stats Section visibility when the button is clicked
+        document.getElementById('toggleUserStatsBtn').addEventListener('click', function() {
+            const statsSection = document.getElementById('userStatsSection');
+            if (statsSection.style.display === 'none' || statsSection.style.display === '') {
+                statsSection.style.display = 'block';
+            } else {
+                statsSection.style.display = 'none';
+            }
+        });
+        $(document).ready(function(){
+    // Crawl Form Submission with AJAX
+    $('#crawlForm').on('submit', function(e){
+        e.preventDefault();  // Prevent default form submission
+
+        var url = $('#url').val();
+        var maxPages = $('#max_pages').val();
+        var maxDepth = $('#max_depth').val();
+        var keyword = $('#keyword').val();
+
+        // Show loading indicator and progress bar
+        $('#loadingIndicator').show();
+        $('.progress').show();
+        $('.progress-bar').width('0%').attr('aria-valuenow', '0');
+
+        // Start crawling process via AJAX
+        $.ajax({
+            url: "{{ url_for('crawl') }}",  // Ensure this is the correct URL
+            type: 'POST',
+            data: {
+                url: url,
+                max_pages: maxPages,
+                max_depth: maxDepth,
+                keyword: keyword
+            },
+            success: function(response){
+                // Hide loading indicator and show the results
+                $('#loadingIndicator').hide();
+                $('#crawlResultsSection').show();  // Show the crawl results section
+                $('#crawl-results').html('');  // Clear previous results
+
+                // Dynamically generate crawl results
+                if (response.crawl_results && response.crawl_results.length > 0) {
+                    $.each(response.crawl_results, function(index, result){
+                        $('#crawl-results').append(`
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <a href="${result.url}" target="_blank">${result.title}</a>
+                                <span class="badge badge-secondary">${result.timestamp || 'N/A'}</span>
+                            </li>
+                        `);
+                    });
+                } else {
+                    $('#crawl-results').append('<li class="list-group-item">No results found.</li>');
+                }
+            },
+            error: function(xhr, status, error){
+                // Hide loading indicator and show an error
+                $('#loadingIndicator').hide();
+                alert('Error crawling the URL: ' + error);
+            }
+        });
+    });
+});
+
+
+    </script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Crawler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Web Crawler</h1>
+        {% if user_logged_in %}
+            <div class="user-profile">
+                Logged in as: {{ session['user_id'] }} <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm">Logout</a>
+            </div>
+            <form action="{{ url_for('crawl') }}" method="POST" class="mt-4">
+                <div class="form-group">
+                    <label for="url">Starting URL:</label>
+                    <input type="text" class="form-control" id="url" name="url" required>
+                </div>
+                <div class="form-group">
+                    <label for="max_pages">Max Pages to Crawl:</label>
+                    <input type="number" class="form-control" id="max_pages" name="max_pages" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Start Crawling</button>
+                <form action="{{ url_for('stop_crawl') }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Stop Crawling</button>
+                </form>
+            </form>
+        {% else %}
+            <p>Please <a href="{{ url_for('login') }}">login</a> or <a href="{{ url_for('signup') }}">sign up</a> to start crawling.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
