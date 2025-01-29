@@ -95,8 +95,7 @@ python-web-crawler/
 ├── models.py             # Database models  
 ├── crawler.py            # Core web crawler logic             
 ├── templates/            # HTML templates for the web interface  
-├── static/               # Static files (CSS, images)  
-├── requirements.txt      # Python dependencies  
+├── static/               # Static files (CSS, images)   
 └── README.md             # Project documentation
 
 
@@ -105,17 +104,24 @@ python-web-crawler/
 ✨ Screenshots
 
 Login/Signup Page:
-![Uploading Screenshot 2025-01-28 193446.png…]()
+![login PNG](https://github.com/user-attachments/assets/59a2e395-1f39-4b74-9d61-44dc67277842)
+
+
 
 Crawling Dashboard:
-![Uploading Screenshot 2025-01-28 203907.png…]()
+![crawler_dashboard PNG](https://github.com/user-attachments/assets/8b2037a8-842d-4735-bfef-91901be465bc)
+
 
 Results Page:
+![RESULTS PNG](https://github.com/user-attachments/assets/442c650b-f1f1-43b4-b062-70090f0610e8)
 
 
 Profile Settings:
 
+![Screenshot 2025-01-28 204503](https://github.com/user-attachments/assets/973b2764-124c-4e0d-9de0-ef69828e39c8)
 
+history page:
+![Screenshot 2025-01-29 090557](https://github.com/user-attachments/assets/13cfd1b2-c71c-4350-bb57-e87f661153c9)
 
 ---
 
